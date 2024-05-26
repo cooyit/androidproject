@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
             JSONObject weather = jsonObject.getJSONArray("weather").getJSONObject(0);
             String description = weather.getString("description");
-            String weatherText = cityName + ", " + countryCode + "\n" + formattedTemp + " °C\n" + description;
+            String translatedDescription = translateDescription(description);
+            String weatherText = cityName + ", " + countryCode + "\n" + formattedTemp + " °C\n" + translatedDescription;
 
             tv.setText(weatherText);
             String iconCode = weather.getString("icon");
@@ -77,6 +78,31 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             Log.e(TAG, "Error parsing weather data", e);
             e.printStackTrace();
+        }
+    }
+
+    private String translateDescription(String description) {
+        switch (description.toLowerCase()) {
+            case "clear sky":
+                return "açık hava";
+            case "few clouds":
+                return "az bulutlu";
+            case "scattered clouds":
+                return "parçalı bulutlu";
+            case "broken clouds":
+                return "çok bulutlu";
+            case "shower rain":
+                return "sağanak yağışlı";
+            case "rain":
+                return "yağmurlu";
+            case "thunderstorm":
+                return "gök gürültülü fırtına";
+            case "snow":
+                return "karlı";
+            case "mist":
+                return "sisli";
+            default:
+                return description;
         }
     }
 
